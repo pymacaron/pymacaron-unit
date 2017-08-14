@@ -44,7 +44,7 @@ setup(
         'pep8',
     ],
     test_suite='nose.collector',
-    packages=['klue_unit.testcase'],
+    packages=['klue_unit'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',
