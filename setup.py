@@ -37,7 +37,6 @@ setup(
     description='Library for unittesting json REST apis built with klue-client-server',
     install_requires=[
         'requests',
-        'klue-client-server',
     ],
     tests_require=[
         'nose',

@@ -10,101 +10,20 @@ from requests.exceptions import ReadTimeout
 import unittest
 import logging
 import pprint
-from klue.swagger.apipool import ApiPool
 
 
 log = logging.getLogger(__name__)
 
 
-def load_port_host_token():
-    """Find out which host:port to run acceptance tests against,
-    using the environment variables KLUE_SERVER_HOST, KLUE_SERVER_PORT
-    """
-
-    server_host, server_port, token = (None, None, None)
-
-    if 'KLUE_SERVER_HOST' in os.environ:
-        server_host = os.environ['KLUE_SERVER_HOST']
-    if 'KLUE_SERVER_PORT' in os.environ:
-        server_port = os.environ['KLUE_SERVER_PORT']
-
-    token = os.environ.get('KLUE_JWT_TOKEN', None)
-
-    if server_host:
-        if server_host.startswith('http://'):
-            server_host = server_host[7:]
-        if server_host.startswith('https://'):
-            server_host = server_host[8:]
-        if server_host.endswith('/'):
-            server_host = server_host[:-1]
-
-    if not server_host or not server_port:
-        raise Exception("Please set both of KLUE_SERVER_HOST and KLUE_SERVER_PORT envvironment variables")
-
-    return (server_host, server_port, token)
-
-#
-# PntTest testcase object
-#
-
 class KlueTestCase(unittest.TestCase):
 
-    host = None
-    port = None
-    token = None
+    host = '127.0.0.1'
+    port = 8080
     timeout_connect = 10
     timeout_read = 10
 
     def setUp(self):
         self.maxDiff = None
-        self.host, self.port, self.token = load_port_host_token()
-
-    def cleanup(self):
-        raise Exception("Not implemented! Please override cleanup() in the child class.")
-
-    def load_client(self, name, **kwargs):
-
-        log.info("Loading client api for %s" % name)
-
-        def get_path(f):
-            return os.path.join(
-                os.path.realpath(os.path.dirname(__file__)),
-                '..',
-                'apis',
-                f
-            )
-
-        name_to_yaml = {
-            'klue': get_path('klue-api.yaml'),
-            'login': get_path('login.yaml'),
-            'seller': get_path('seller.yaml'),
-            'item': get_path('item.yaml'),
-            'expert': get_path('expert-api.yaml'),
-            'cert': get_path('cert.yaml'),
-            'announce': get_path('announce.yaml'),
-            'search': get_path('search-api.yaml'),
-            'chatbot': get_path('chatbot.yaml'),
-            'market': get_path('market.yaml'),
-        }
-
-        if name not in name_to_yaml:
-            raise Exception("Don't know service %s" % name)
-
-        # Override https in yaml file if testing a port 80/8080
-        if 'port' in kwargs and kwargs['port'] and int(kwargs['port']) in (80, 8080):
-            kwargs['proto'] = 'http'
-
-        if 'NO_SSL_CHECK' in os.environ:
-            if os.environ.get('NO_SSL_CHECK') != '':
-                kwargs['verify_ssl'] = False
-                requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
-
-        ApiPool.add(
-            name,
-            yaml_path=name_to_yaml[name],
-            formats=get_custom_formats(),
-            **kwargs
-        )
 
     def _try(self, method, url, headers, data, allow_redirects=True, verify_ssl=True):
 
@@ -139,7 +58,7 @@ class KlueTestCase(unittest.TestCase):
                     url,
                     headers=headers,
                     data=jdata,
-                    timeout=(5 * timeout_connect, 5 * timeout_read),
+                    timeout=(5 * self.timeout_connect, 5 * self.timeout_read),
                     verify=my_verify_ssl,
                     allow_redirects=allow_redirects,
                 )
@@ -280,33 +199,3 @@ class KlueTestCase(unittest.TestCase):
         r = self._assertMethodReturnContent(path, method, data, status, auth, None, allow_redirects=allow_redirects, verify_ssl=verify_ssl, quiet=quiet)
         self.assertEqual(r.headers['Content-Type'], 'text/plain; charset=utf-8')
         return r.text
-
-
-    #
-    # Test for default endpoints: /ping /version /secured/version
-    #
-
-    def assertHasPing(self):
-        self.assertGetReturnOk('ping')
-
-    def assertHasVersion(self, verify_ssl=True):
-        j = self.assertGetReturnJson('version', 200, verify_ssl=verify_ssl)
-        self.assertIsVersion(j)
-
-    def assertHasAuthVersion(self, verify_ssl=True):
-        self.assertGetReturnError('secured/version', 401, 'AUTHORIZATION_HEADER_MISSING', verify_ssl=verify_ssl)
-
-        tests = [
-            # header,  status code, json code
-            ("", 401, 'AUTHORIZATION_HEADER_MISSING'),
-            ("Bearer1234567890", 401, 'TOKEN_INVALID'),
-            ("bearer foo bar", 401, 'TOKEN_INVALID'),
-            ("Bearer 1234567890", 401, 'TOKEN_INVALID'),
-        ]
-
-        for t in tests:
-            token, status, error = t
-            self.assertGetReturnError('secured/version', status, error, token, verify_ssl=verify_ssl)
-
-        j = self.assertGetReturnJson('secured/version', 200, "Bearer %s" % self.token, verify_ssl=verify_ssl)
-        self.assertIsVersion(j)

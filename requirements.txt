@@ -2,4 +2,3 @@ pep8
 mock
 nose
 requests
-klue-client-server
