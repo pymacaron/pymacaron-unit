@@ -1,8 +1,11 @@
 klue-unit
 =========
 
-Python library for unittesting json REST apis, with support for Authorization
-header and Error formats used by klue-client-server.
+Python library for unittesting json REST apis built with
+[klue-microservice](https://github.com/erwan-lemonnier/klue-microservice),
+including support for JWT authentication, Error formats used by
+klue-microservice and compatible with 'run_acceptance_tests', the testing tool
+used in klue microservices.
 
 Synopsis
 --------
@@ -39,12 +42,12 @@ Synopsis
                 }
             )
 
-See klue_unit/testcase.py for a complete list of test methods. Bear in mind
-that most of them are customized for use against apis implemented with
-klue-client-server.
+See
+[klue_unit/testcase.py](https://github.com/erwan-lemonnier/klue-unit/blob/master/klue_unit/testcase.py)
+for a complete list of test methods.
 
 
 Examples
 --------
 
-See test/test_klue_unit.py :-)
+See [test/test_klue_unit.py](https://github.com/erwan-lemonnier/klue-unit/blob/master/test/test_klue_unit.py) :-)
