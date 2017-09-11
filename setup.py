@@ -25,6 +25,8 @@ if not version:
         else:
             print("WARNING: cannot set version in custom setup.py")
 
+if version:
+    version = version.strip()
 print("version: %s" % version)
 
 setup(
