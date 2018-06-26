@@ -1,5 +1,5 @@
 dist/
-klue_unit.egg-info/
+pymacaron_unit.egg-info/
 **/__pycache__
 *.tar
 **/*.pyc

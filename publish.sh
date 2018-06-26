@@ -32,5 +32,4 @@ echo "=> Build+Upload dist"
 python setup.py sdist upload -r pypi --version $VERSION
 
 echo "=> Tell slack"
-tell_slack "Released version $VERSION of klue-client-server"
-
+tell_slack "Released version $VERSION of pymacaron-unit"

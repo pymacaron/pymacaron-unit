@@ -2,3 +2,4 @@ pep8
 mock
 nose
 requests
+pycodestyle

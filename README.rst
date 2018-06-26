@@ -1,20 +1,19 @@
-klue-unit
-=========
+pymacaron-unit
+==============
 
 Python library for unittesting json REST apis built with
-[klue-microservice](https://github.com/erwan-lemonnier/klue-microservice),
-including support for JWT authentication, Error formats used by
-klue-microservice and compatible with 'run_acceptance_tests', the testing tool
-used in klue microservices.
+[pymacaron](https://github.com/pymacaron/pymacaron), including support for JWT
+authentication, Error formats used by pymacaron and compatible with
+'run_acceptance_tests', the testing tool used in pymacaron microservices.
 
 Synopsis
 --------
 
 .. code-block:: python
 
-    from klue_unit.testcase import KlueTestCase
+    from pymacaron_unit.testcase import PyMacaronTestCase
 
-    class Tests(KlueTestCase):
+    class Tests(PyMacaronTestCase):
 
         def setUp(self):
             super.setUp()
@@ -43,11 +42,11 @@ Synopsis
             )
 
 See
-[klue_unit/testcase.py](https://github.com/erwan-lemonnier/klue-unit/blob/master/klue_unit/testcase.py)
+[pymacaron_unit/testcase.py](https://github.com/pymacaron/pymacaron-unit/blob/master/pymacaron_unit/testcase.py)
 for a complete list of test methods.
 
 
 Examples
 --------
 
-See [test/test_klue_unit.py](https://github.com/erwan-lemonnier/klue-unit/blob/master/test/test_klue_unit.py) :-)
+See [test/test_unit.py](https://github.com/pymacaron/pymacaron-unit/blob/master/test/test_unit.py) :-)

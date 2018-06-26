@@ -30,23 +30,23 @@ if version:
 print("version: %s" % version)
 
 setup(
-    name='klue-unit',
+    name='pymacaron-unit',
     version=version,
-    url='https://github.com/erwan-lemonnier/klue-unit',
+    url='https://github.com/pymacaron/pymacaron-unit',
     license='BSD',
     author='Erwan Lemonnier',
     author_email='erwan@lemonnier.se',
-    description='Library for unittesting json REST apis built with klue-client-server',
+    description='Library for unittesting json REST apis built with pymacaron',
     install_requires=[
         'requests',
     ],
     tests_require=[
         'nose',
         'mock',
-        'pep8',
+        'pycodestyle',
     ],
     test_suite='nose.collector',
-    packages=['klue_unit'],
+    packages=['pymacaron_unit'],
     zip_safe=False,
     include_package_data=True,
     platforms='any',

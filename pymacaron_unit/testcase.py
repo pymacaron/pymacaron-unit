@@ -1,10 +1,6 @@
 import os
 import json
-import re
 import requests
-import urllib.request
-import urllib.error
-import urllib.parse
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.exceptions import ReadTimeout
 import unittest
@@ -15,7 +11,7 @@ import pprint
 log = logging.getLogger(__name__)
 
 
-class KlueTestCase(unittest.TestCase):
+class PyMacaronTestCase(unittest.TestCase):
 
     host = '127.0.0.1'
     port = 8080
@@ -104,7 +100,7 @@ class KlueTestCase(unittest.TestCase):
         target_port = self.port
         if port:
             target_port = port
-        protocol = 'https' if target_port == '443' else 'http'
+        protocol = 'https' if str(target_port) == '443' else 'http'
         path = path.lstrip('/')
         url = "%s://%s:%s/%s" % (protocol, self.host, target_port, path)
         headers = {}
