@@ -89,7 +89,7 @@ class PyMacaronTestCase(unittest.TestCase):
 
         raise last_exception
 
-    def _assertMethodReturnContent(self, path, method, data, status, auth, contenttype, allow_redirects=True, verify_ssl=True, port=None, quiet=False):
+    def _assertMethodReturnContent(self, path, method, data, status, auth, contenttype, allow_redirects=True, verify_ssl=True, port=None, quiet=False, allow_error=False):
         method = method.lower()
         assert method in ('post', 'get', 'delete', 'patch', 'put')
         assert self.host and self.port, "self.host|port undefined. Did you call setUp()?"
@@ -112,11 +112,14 @@ class PyMacaronTestCase(unittest.TestCase):
         r = self._try(method, url, headers, data, allow_redirects=allow_redirects, verify_ssl=verify_ssl)
         if not quiet:
             print("r: %s" % r.text)
-        self.assertEqual(r.status_code, status)
+        if allow_error and r.status_code != 200:
+            pass
+        else:
+            self.assertEqual(r.status_code, status)
         return r
 
-    def _assertMethodReturnJson(self, path, method, data, status, auth, verify_ssl=True):
-        r = self._assertMethodReturnContent(path, method, data, status, auth, 'application/json', verify_ssl=verify_ssl)
+    def _assertMethodReturnJson(self, path, method, data, status, auth, verify_ssl=True, allow_error=False):
+        r = self._assertMethodReturnContent(path, method, data, status, auth, 'application/json', verify_ssl=verify_ssl, allow_error=allow_error)
         j = r.json()
         return j
 
@@ -165,8 +168,8 @@ class PyMacaronTestCase(unittest.TestCase):
         return self.assertPostReturnDict(path, data, {'status': status, 'error': error}, status, auth, verify_ssl=verify_ssl)
 
     # More generic calls
-    def assertCallReturnJson(self, method, path, data=None, auth=None, status=200):
-        return self._assertMethodReturnJson(path, method, data, status, auth)
+    def assertCallReturnJson(self, method, path, data=None, auth=None, status=200, allow_error=False):
+        return self._assertMethodReturnJson(path, method, data, status, auth, allow_error=allow_error)
 
     def assertCallReturnDict(self, method, path, kv, data=None, auth=None, status=200):
         return self._assertMethodReturnDict(path, method, data, kv, status, auth)
