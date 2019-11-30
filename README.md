@@ -1,16 +1,13 @@
-pymacaron-unit
-==============
+# pymacaron-unit
 
 Python library for unittesting json REST apis built with
-[pymacaron](https://github.com/pymacaron/pymacaron), including support for JWT
-authentication, Error formats used by pymacaron and compatible with
-'run_acceptance_tests', the testing tool used in pymacaron microservices.
+[pymacaron](http://pymacaron.com), including support for JWT authentication,
+Error formats used by pymacaron and compatible with 'pymtest', the
+testing tool used in pymacaron microservices.
 
-Synopsis
---------
+## Synopsis
 
-.. code-block:: python
-
+```
     from pymacaron_unit.testcase import PyMacaronTestCase
 
     class Tests(PyMacaronTestCase):
@@ -40,13 +37,21 @@ Synopsis
                     'foo': 'bar',
                 }
             )
+```
 
 See
 [pymacaron_unit/testcase.py](https://github.com/pymacaron/pymacaron-unit/blob/master/pymacaron_unit/testcase.py)
 for a complete list of test methods.
 
 
-Examples
---------
+## Examples
 
 See [test/test_unit.py](https://github.com/pymacaron/pymacaron-unit/blob/master/test/test_unit.py) :-)
+
+
+## Author
+
+Erwan Lemonnier<br/>
+[github.com/pymacaron](https://github.com/pymacaron)</br>
+[github.com/erwan-lemonnier](https://github.com/erwan-lemonnier)<br/>
+[www.linkedin.com/in/erwan-lemonnier/](https://www.linkedin.com/in/erwan-lemonnier/)

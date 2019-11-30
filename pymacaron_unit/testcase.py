@@ -168,11 +168,11 @@ class PyMacaronTestCase(unittest.TestCase):
         return self.assertPostReturnDict(path, data, {'status': status, 'error': error}, status, auth, verify_ssl=verify_ssl)
 
     # More generic calls
-    def assertCallReturnJson(self, method, path, data=None, auth=None, status=200, allow_error=False):
-        return self._assertMethodReturnJson(path, method, data, status, auth, allow_error=allow_error)
+    def assertCallReturnJson(self, method, path, data=None, auth=None, status=200, allow_error=False, verify_ssl=True):
+        return self._assertMethodReturnJson(path, method, data, status, auth, allow_error=allow_error, verify_ssl=verify_ssl)
 
-    def assertCallReturnDict(self, method, path, kv, data=None, auth=None, status=200):
-        return self._assertMethodReturnDict(path, method, data, kv, status, auth)
+    def assertCallReturnDict(self, method, path, kv, data=None, auth=None, status=200, verify_ssl=True):
+        return self._assertMethodReturnDict(path, method, data, kv, status, auth, verify_ssl=verify_ssl)
 
     def assertCallReturnOk(self, method, path, data=None, auth=None):
         j = self.assertCallReturnJson(method, path, data, auth, 200)

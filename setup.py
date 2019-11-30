@@ -29,6 +29,12 @@ if version:
     version = version.strip()
 print("version: %s" % version)
 
+# read the contents of the README file
+from os import path
+this_directory = path.abspath(path.dirname(__file__))
+with open(path.join(this_directory, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='pymacaron-unit',
     version=version,
@@ -37,6 +43,8 @@ setup(
     author='Erwan Lemonnier',
     author_email='erwan@lemonnier.se',
     description='Library for unittesting json REST apis built with pymacaron',
+    long_description=long_description,
+    long_description_content_type='text/markdown',
     install_requires=[
         'requests',
     ],
