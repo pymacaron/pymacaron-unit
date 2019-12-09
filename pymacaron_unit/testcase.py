@@ -111,7 +111,10 @@ class PyMacaronTestCase(unittest.TestCase):
         print("calling %s %s" % (method.upper(), url))
         r = self._try(method, url, headers, data, allow_redirects=allow_redirects, verify_ssl=verify_ssl)
         if not quiet:
-            print("r: %s" % r.text)
+            if contenttype == 'application/json':
+                print("r: %s" % json.dumps(r.json(), indent=4))
+            else:
+                print("r: %s" % r.text)
         if allow_error and r.status_code != 200:
             pass
         else:
