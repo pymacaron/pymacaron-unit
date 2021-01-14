@@ -4,11 +4,11 @@ import requests
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.exceptions import ReadTimeout
 import unittest
-import logging
+from pymacaron.log import pymlogger
 import pprint
 
 
-log = logging.getLogger(__name__)
+log = pymlogger(__name__)
 
 
 class PyMacaronTestCase(unittest.TestCase):
