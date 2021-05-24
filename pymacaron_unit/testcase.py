@@ -194,7 +194,7 @@ class PyMacaronTestCase(unittest.TestCase):
 
     def assertCallReturnHtml(self, method, path, data=None, auth=None, status=200, allow_redirects=True, verify_ssl=True, quiet=False):
         r = self._assertMethodReturnContent(path, method, data, status, auth, None, allow_redirects=allow_redirects, verify_ssl=verify_ssl, quiet=quiet)
-        self.assertEqual(r.headers['Content-Type'], 'text/html; charset=utf-8')
+        self.assertEqual(r.headers['Content-Type'].lower(), 'text/html; charset=utf-8')
         return r.text
 
     def assertCallReturnText(self, method, path, data=None, auth=None, status=200, allow_redirects=True, verify_ssl=True, quiet=False):
